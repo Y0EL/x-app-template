@@ -1,0 +1,44 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "turbo build",
+  "ignoreCommand": "git diff --quiet HEAD^ HEAD ./apps/frontend",
+  "outputDirectory": "apps/frontend/dist",
+  "framework": "vite",
+  "installCommand": "yarn install",
+  "builds": [
+    {
+      "src": "apps/backend/src/server.ts",
+      "use": "@vercel/node",
+      "config": {
+        "buildCommand": "yarn build",
+        "outputDirectory": "dist"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "apps/backend/src/server.ts",
+      "methods": ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept, Authorization",
+        "Access-Control-Allow-Credentials": "true"
+      }
+    }
+  ],
+  "env": {
+    "NODE_ENV": "production",
+    "PORT": "3000",
+    "ORIGIN": "*",
+    "CREDENTIALS": "true",
+    "LOG_FORMAT": "combined",
+    "LOG_DIR": "../logs",
+    "ADMIN_MNEMONIC": "pudding tunnel spare spin rail sight attack female baby normal radar truth",
+    "ADMIN_ADDRESS": "0xc42E2040E36883CC037da396D60caB0854f2925B",
+    "NETWORK_URL": "https://testnet.vechain.org",
+    "NETWORK_TYPE": "testnet",
+    "REWARD_AMOUNT": "1",
+    "MAX_FILE_SIZE": "10mb"
+  }
+}
